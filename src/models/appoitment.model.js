@@ -7,10 +7,10 @@ const appointmentSchema = new mongoose.Schema(
       required: [true, "Patient name is required"],
       trim: true,
     },
-    // 👈 الربط مع موديل المستخدم (الدكتور)
+
     doctor: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User", // لازم يكون نفس الاسم اللي سجلت بيه الموديل بتاع User
+      ref: "User",
       required: [true, "Appointment must belong to a doctor"],
     },
     date: {
