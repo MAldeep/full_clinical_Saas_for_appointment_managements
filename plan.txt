@@ -3,3 +3,4 @@
 3- config folder -> env.js for env validation
 4- models 
 5- utils
+6- middlewares
