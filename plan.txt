@@ -1,0 +1,2 @@
+1- Boilerplate : .gitignore and packages
+2- DB creation and .env file
