@@ -21,3 +21,12 @@ export const loginUserCtrl = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+export const getMeCtrl = catchAsync(async (req, res, next) => {
+  res.status(200).json({
+    success: true,
+    data: {
+      user: req.user,
+    },
+  });
+});
