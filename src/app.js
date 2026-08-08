@@ -8,6 +8,7 @@ import authRoutes from "./routes/auth.routes.js";
 import appointmentRoutes from "./routes/appointment.routes.js";
 import AppError from "./utils/appError.js";
 import globalErrorHandler from "./controllers/errorController.js";
+import doctorRoutes from "./routes/doctors.routes.js";
 import mongoose from "mongoose";
 process.on("uncaughtException", (err) => {
   console.error("UNCAUGHT EXCEPTION! Shutting down...");
@@ -58,6 +59,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/appointments", appointmentRoutes);
+app.use("/api/doctors", doctorRoutes);
 
 app.use((req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
