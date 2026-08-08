@@ -1,3 +1,4 @@
 1- Boilerplate : .gitignore and packages
 2- DB creation and .env file
 3- config folder -> env.js for env validation
+4- models 
