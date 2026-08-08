@@ -7,7 +7,6 @@ const appointmentSchema = new mongoose.Schema(
       required: [true, "Patient name is required"],
       trim: true,
     },
-
     doctor: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -21,6 +20,11 @@ const appointmentSchema = new mongoose.Schema(
       type: String,
       enum: ["scheduled", "completed", "cancelled"],
       default: "scheduled",
+    },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: [true, "Appointment must have a creator"],
     },
   },
   { timestamps: true },

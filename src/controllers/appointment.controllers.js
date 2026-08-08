@@ -9,7 +9,10 @@ import AppError from "../utils/appError.js";
 import catchAsync from "../utils/catchAsync.js";
 
 export const createAppointmentCtrl = catchAsync(async (req, res, next) => {
-  const appointmentData = req.body;
+  const appointmentData = {
+    ...req.body,
+    createdBy: req.user._id,
+  };
   const newAppointment = await createAppointmentService(appointmentData);
 
   res.status(201).json({

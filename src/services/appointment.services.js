@@ -6,10 +6,9 @@ export const createAppointmentService = async (appointmentData) => {
 };
 
 export const getAllAppointmentsService = async (filter) => {
-  const appointments = await Appointment.find(filter).populate(
-    "doctor",
-    "name email role",
-  );
+  const appointments = await Appointment.find(filter)
+    .populate("doctor", "name email role")
+    .populate("createdBy", "name role");
   return appointments;
 };
 
