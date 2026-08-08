@@ -33,13 +33,14 @@ export const getAllAppointmentsCtrl = catchAsync(async (req, res, next) => {
 export const getAppointmentByIdCtrl = catchAsync(async (req, res, next) => {
   const { id } = req.params;
   const appointment = await getAppointmentByIdService(id);
+
   if (!appointment) {
     return next(new AppError("Appointment not found", 404));
   }
-  const isAdmin = req.user.role === "Admin";
-  const isStaff = req.user.role === "Staff";
+
   const isOwner = appointment.doctor._id.toString() === req.user._id.toString();
-  if (!isAdmin && !isOwner && !isStaff) {
+
+  if (req.user.role === "Doctor" && !isOwner) {
     return next(
       new AppError(
         "You do not have permission to access this appointment",
@@ -47,6 +48,7 @@ export const getAppointmentByIdCtrl = catchAsync(async (req, res, next) => {
       ),
     );
   }
+
   res.status(200).json({
     success: true,
     data: appointment,
