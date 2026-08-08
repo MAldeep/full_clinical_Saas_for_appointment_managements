@@ -1,3 +1,5 @@
+import AppError from "../utils/appError.js";
+
 export const restrictTo = (...allowedRoles) => {
   return (req, res, next) => {
     if (!allowedRoles.includes(req.user.role)) {
