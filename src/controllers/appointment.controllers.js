@@ -19,13 +19,8 @@ export const createAppointmentCtrl = catchAsync(async (req, res, next) => {
 });
 
 export const getAllAppointmentsCtrl = catchAsync(async (req, res, next) => {
-  const role = req.user;
-  let filter;
-  if (role === "Doctor") {
-    filter = { doctor: req.user._id };
-  } else {
-    filter = {};
-  }
+  const filter = req.user.role === "Doctor" ? { doctor: req.user._id } : {};
+
   const appointments = await getAllAppointmentsService(filter);
 
   res.status(200).json({
@@ -42,8 +37,9 @@ export const getAppointmentByIdCtrl = catchAsync(async (req, res, next) => {
     return next(new AppError("Appointment not found", 404));
   }
   const isAdmin = req.user.role === "Admin";
+  const isStaff = req.user.role === "Staff";
   const isOwner = appointment.doctor._id.toString() === req.user._id.toString();
-  if (!isAdmin && !isOwner) {
+  if (!isAdmin && !isOwner && !isStaff) {
     return next(
       new AppError(
         "You do not have permission to access this appointment",
@@ -59,47 +55,27 @@ export const getAppointmentByIdCtrl = catchAsync(async (req, res, next) => {
 
 export const updateAppointmentCtrl = catchAsync(async (req, res, next) => {
   const { id } = req.params;
-  const updateData = req.body;
-  const updatedAppointment = await updateAppointmentService(id, updateData);
+  const updatedAppointment = await updateAppointmentService(id, req.body);
+
   if (!updatedAppointment) {
     return next(new AppError("Appointment not found", 404));
   }
-  const isAdmin = req.user.role === "Admin";
-  const isOwner =
-    updatedAppointment.doctor._id.toString() === req.user._id.toString();
-  if (!isAdmin && !isOwner) {
-    return next(
-      new AppError(
-        "You do not have permission to access this appointment",
-        403,
-      ),
-    );
-  }
+
   res.status(200).json({
     success: true,
     data: updatedAppointment,
   });
 });
-
 export const deleteAppointmentCtrl = catchAsync(async (req, res, next) => {
   const { id } = req.params;
   const deletedAppointment = await deleteAppointmentService(id);
+
   if (!deletedAppointment) {
     return next(new AppError("Appointment not found", 404));
   }
-  const isAdmin = req.user.role === "Admin";
-  const isOwner =
-    deletedAppointment.doctor._id.toString() === req.user._id.toString();
-  if (!isAdmin && !isOwner) {
-    return next(
-      new AppError(
-        "You do not have permission to access this appointment",
-        403,
-      ),
-    );
-  }
+
   res.status(200).json({
     success: true,
-    data: deletedAppointment,
+    message: "Appointment deleted successfully",
   });
 });
