@@ -47,7 +47,7 @@ export const refreshTokenCtrl = catchAsync(async (req, res, next) => {
   const incomingRefreshToken = req.cookies?.refreshToken;
   const { accessToken, refreshToken } =
     await refreshAccessTokenService(incomingRefreshToken);
-  res.cookie({
+  res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
     secure: env.NODE_ENV === "production",
     sameSite: "strict",

@@ -26,6 +26,7 @@ export const loginUser = async (email, password) => {
   user.refreshToken = refreshToken;
   await user.save({ validateBeforeSave: false });
   user.password = undefined;
+  user.refreshToken = undefined;
   return { user, accessToken, refreshToken };
 };
 

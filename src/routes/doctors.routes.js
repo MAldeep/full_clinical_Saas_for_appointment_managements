@@ -7,3 +7,5 @@ const router = express.Router();
 
 router.use(protect);
 router.route("/").get(restrictTo("Admin", "Staff"), getAllDoctorsCtrl);
+
+export default router;
