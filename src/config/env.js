@@ -10,8 +10,10 @@ const envSchema = z.object({
     .default("5000"),
   MONGODB_URI: z.string().url("MONGODB_URI must be a valid connection string"),
   NODE_ENV: z.enum(["development", "production"]).default("development"),
-  JWT_SECRET: z.string().min(10),
-  JWT_EXPIRES_IN: z.string(),
+  JWT_ACCESS_SECRET: z.string().min(10),
+  JWT_ACCESS_EXPIRES_IN: z.string(),
+  JWT_REFRESH_SECRET: z.string().min(10),
+  JWT_REFRESH_EXPIRES_IN: z.string(),
 });
 
 const parseResult = envSchema.safeParse(process.env);
