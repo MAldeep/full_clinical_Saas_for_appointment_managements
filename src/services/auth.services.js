@@ -20,7 +20,9 @@ export const loginUser = async (email, password) => {
   if (!user || !(await user.correctPassword(password, user.password))) {
     throw new AppError("Incorrect email or password", 401);
   }
-  const token = generateToken(user._id);
+  const { accessToken, refreshToken } = generateToken(user._id);
+  user.refreshToken = refreshToken;
+  await user.save({ validateBeforeSave: false });
   user.password = undefined;
-  return { user, token };
+  return { user, accessToken, refreshToken };
 };
