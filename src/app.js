@@ -10,6 +10,7 @@ import AppError from "./utils/appError.js";
 import globalErrorHandler from "./controllers/errorController.js";
 import doctorRoutes from "./routes/doctors.routes.js";
 import mongoose from "mongoose";
+import cookieParser from "cookie-parser";
 process.on("uncaughtException", (err) => {
   console.error("UNCAUGHT EXCEPTION! Shutting down...");
   console.error(err.name, err.message);
@@ -56,7 +57,7 @@ const PORT = env.PORT;
 const DB_URI = env.MONGODB_URI;
 
 app.use(express.json());
-
+app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api/appointments", appointmentRoutes);
 app.use("/api/doctors", doctorRoutes);
